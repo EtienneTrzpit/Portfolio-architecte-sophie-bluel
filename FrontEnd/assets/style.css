@@ -276,3 +276,45 @@ footer nav ul {
   margin-right: 1em;
   margin-left: 1em;
 }
+
+.login {
+  text-align: center;
+}
+
+.login-title {
+  margin-bottom: 2em;
+  color: #1d6154;
+}
+
+.form-info {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+  margin-left: 28em;
+  margin-right: 28em;
+}
+
+.form-info--input {
+  margin-bottom: 1em;
+  height: 3em;
+  border: none;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+}
+
+.form-info--label {
+  display: flex;
+}
+
+.form-validation {
+  height: 3em;
+}
+
+.password-forgotten {
+  color: #3d3d3d;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  right: 107px;
+}
