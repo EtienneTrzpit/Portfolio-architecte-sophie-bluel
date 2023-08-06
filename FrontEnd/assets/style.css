@@ -134,11 +134,13 @@ body {
   font-family: "Work Sans";
   font-size: 14px;
 }
+/* modification Etiennne Trzpit */
+/*
 header {
   display: flex;
   justify-content: space-between;
   margin: 50px 0;
-}
+}*/
 section {
   margin: 50px 0;
 }
@@ -317,4 +319,98 @@ footer nav ul {
   position: absolute;
   bottom: 0;
   right: 107px;
+}
+
+.edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 59px;
+  background-color: black;
+  margin-left: -2em;
+}
+
+.edit p {
+  color: white;
+  font-size: 1.2em;
+  margin-top: 0.5em;
+  margin-left: 1em;
+  cursor: pointer;
+}
+
+.edit button {
+  border-radius: 60px;
+  width: 216px;
+  height: 38px;
+  cursor: pointer;
+}
+
+.modal {
+  width: 630px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.photos {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 450px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.modal img {
+  width: 78px;
+  height: 104px;
+  margin: 0.5em 1em;
+}
+
+.modal h2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.add {
+  width: 237px;
+  height: 36px;
+  border-radius: 60px;
+  background: #1d6154;
+  margin-top: 3em;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
+.delete {
+  color: #d65353;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}
+
+.separator {
+  width: 420px;
+  height: 1px;
+  background-color: #b3b3b3;
+}
+
+.close {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px 0;
+}
+
+.fa-pen-to-square {
+  color: white;
 }
