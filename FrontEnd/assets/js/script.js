@@ -161,6 +161,7 @@ fetchWorksModal();
 //ajout d'un event listener sur mode édition
 document.querySelector(".edit p").addEventListener("click", () => {
   //afficher modal
+  modal.classList.remove("hidden");
   modal.showModal();
 });
 
