@@ -210,12 +210,6 @@ modal.addEventListener("click", (e) => {
   }
 });
 
-//ajout d'un event listener sur la croix de la modal
-document.querySelector(".close").addEventListener("click", () => {
-  modal.close();
-  modal.style.display = "none";
-});
-
 //ajout d'un event listener sur le bouton ajouter
 document.querySelector(".add").addEventListener("click", async () => {
   //cacher modal
@@ -226,8 +220,14 @@ document.querySelector(".add").addEventListener("click", async () => {
   modalAdd.style.display = "flex";
 });
 
+//ajout d'un event listener sur la croix de la modal
+document.querySelector(".close1").addEventListener("click", () => {
+  document.querySelector(".modal").close();
+  modal.style.display = "none";
+});
+
 //ajout d'un event listener sur la croix de la modal add
-document.querySelector(".close-add").addEventListener("click", () => {
+document.querySelector(".close2").addEventListener("click", () => {
   document.querySelector(".modal-add").close();
 });
 
@@ -243,5 +243,6 @@ document.querySelector(".modal-add").addEventListener("click", (e) => {
     e.clientY > modalDimensions.bottom
   ) {
     document.querySelector(".modal-add").close();
+    modalAdd.style.display = "none";
   }
 });
