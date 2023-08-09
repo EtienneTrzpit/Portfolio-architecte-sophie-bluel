@@ -352,9 +352,6 @@ footer nav ul {
   flex-direction: column;
   margin-top: 2em;
   margin-bottom: 2em;
-}
-
-.hidden {
   display: none;
 }
 
@@ -417,4 +414,85 @@ footer nav ul {
 
 .fa-pen-to-square {
   color: white;
+}
+
+.fa-trash-alt {
+  position: absolute;
+  left: 60px;
+  top: 20px;
+  color: white;
+  padding: 7px;
+  background-color: black;
+  border-radius: 4px;
+}
+
+figure {
+  position: relative;
+}
+
+.modal-add {
+  width: 630px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  display: none;
+}
+
+.modal-add-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-add-title {
+  display: flex;
+  justify-content: center;
+}
+
+.photo-to-add {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 478px;
+  height: 104px;
+  margin: 0.5em 4em;
+  background-color: #e8f1f6;
+}
+
+.add__photo {
+  width: 178px;
+  height: 34px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50px;
+}
+
+.fa-mountain {
+  color: #1d6154;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.requirement {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.form-image {
+  width: 250px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  flex-direction: column;
+}
+
+.validation-add {
+  width: 139px;
+  height: 36px;
+  border-radius: 60px;
+  border: none;
+  margin: auto;
 }

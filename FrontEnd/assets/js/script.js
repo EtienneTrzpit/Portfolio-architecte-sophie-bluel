@@ -6,6 +6,7 @@ const object = document.querySelector(".object");
 const tenement = document.querySelector(".tenement");
 const hotel = document.querySelector(".hotel");
 const modal = document.querySelector(".modal");
+const modalAdd = document.querySelector(".modal-add");
 let category1 = [];
 localStorage.getItem("token");
 
@@ -147,9 +148,13 @@ async function fetchWorksModal() {
     let figure = document.createElement("figure");
     let img = document.createElement("img");
     let figcaption = document.createElement("figcaption");
+    let trash = document.createElement("i");
+    trash.classList.add("fas", "fa-trash-alt");
+    trash.id = value.id;
     img.src = value.imageUrl;
     img.alt = value.title;
     figcaption.textContent = "éditer";
+    figure.appendChild(trash);
     figure.appendChild(img);
     figure.appendChild(figcaption);
     photos.appendChild(figure);
@@ -161,9 +166,36 @@ fetchWorksModal();
 //ajout d'un event listener sur mode édition
 document.querySelector(".edit p").addEventListener("click", () => {
   //afficher modal
-  modal.classList.remove("hidden");
   modal.showModal();
+  modal.style.display = "flex";
+  deleteWork();
 });
+
+// fonction pour supprimer un travail
+async function deleteWork() {
+  document.querySelectorAll(".fa-trash-alt").forEach((trash) => {
+    trash.addEventListener("click", async () => {
+      console.log("trash");
+      // créer message de confirmation
+      let confirmation = confirm("Voulez-vous vraiment supprimer ce travail ?");
+      // si oui, supprimer le travail
+      if (confirmation) {
+        const response = await fetch(
+          `http://localhost:5678/api/works/${trash.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        // supprimer le travail dans le DOM
+        trash.parentNode.remove();
+      }
+    });
+  });
+}
 
 modal.addEventListener("click", (e) => {
   const modalDimensions = modal.getBoundingClientRect();
@@ -174,10 +206,42 @@ modal.addEventListener("click", (e) => {
     e.clientY > modalDimensions.bottom
   ) {
     modal.close();
+    modal.style.display = "none";
   }
 });
 
 //ajout d'un event listener sur la croix de la modal
 document.querySelector(".close").addEventListener("click", () => {
   modal.close();
+  modal.style.display = "none";
+});
+
+//ajout d'un event listener sur le bouton ajouter
+document.querySelector(".add").addEventListener("click", async () => {
+  //cacher modal
+  modal.close();
+  modal.style.display = "none";
+  //afficher modal add
+  document.querySelector(".modal-add").showModal();
+  modalAdd.style.display = "flex";
+});
+
+//ajout d'un event listener sur la croix de la modal add
+document.querySelector(".close-add").addEventListener("click", () => {
+  document.querySelector(".modal-add").close();
+});
+
+//ajout d'un event listener en dehors de la modal add
+document.querySelector(".modal-add").addEventListener("click", (e) => {
+  const modalDimensions = document
+    .querySelector(".modal-add")
+    .getBoundingClientRect();
+  if (
+    e.clientX < modalDimensions.left ||
+    e.clientX > modalDimensions.right ||
+    e.clientY < modalDimensions.top ||
+    e.clientY > modalDimensions.bottom
+  ) {
+    document.querySelector(".modal-add").close();
+  }
 });
