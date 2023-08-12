@@ -251,7 +251,57 @@ async function displayCategory(...category) {
       }
     }
   }
+  changePhotosModal(...category);
 }
 
 //appel de la fonction pour afficher tous les travaux
 fetchWorks().then(() => displayCategory());
+
+//fonction pour changer photos du modal en fonction de ce qu'affiche la gallerie
+function changePhotosModal(...category) {
+  //suppression des photos du modal
+  document.querySelector(".photos").remove();
+  //création d'une nouvelle div pour les photos du modal
+  let newPhotos = document.createElement("div");
+  newPhotos.classList.add("photos");
+  document.querySelector(".modal").appendChild(newPhotos);
+  // boucle pour afficher les photos du modal
+  for (let i = 0; i < numberofWorks; i++) {
+    // afficher tous les travaux si aucun paramètre n'est passé
+    if (category.length === 0) {
+      let figure = document.createElement("figure");
+      let img = document.createElement("img");
+      let figcaption = document.createElement("figcaption");
+      let trash = document.createElement("i");
+      trash.classList.add("fas", "fa-trash-alt");
+      trash.id = idWorks[i];
+      img.src = imageUrlWorks[i];
+      img.alt = titleWorks[i];
+      figcaption.textContent = "éditer";
+      figure.appendChild(trash);
+      figure.appendChild(img);
+      figure.appendChild(figcaption);
+      newPhotos.appendChild(figure);
+    } else {
+      // afficher les travaux selon la ou les catégories passées en paramètre
+      for (let j = 0; j < category.length; j++) {
+        if (categoryWorks[i] === category[j]) {
+          let figure = document.createElement("figure");
+          let img = document.createElement("img");
+          let figcaption = document.createElement("figcaption");
+          let trash = document.createElement("i");
+          trash.classList.add("fas", "fa-trash-alt");
+          trash.id = idWorks[i];
+          img.src = imageUrlWorks[i];
+          img.alt = titleWorks[i];
+          figcaption.textContent = "éditer";
+          figure.appendChild(trash);
+          figure.appendChild(img);
+          figure.appendChild(figcaption);
+          newPhotos.appendChild(figure);
+        }
+      }
+    }
+  }
+  deleteWork();
+}
