@@ -1,6 +1,4 @@
 const formImg = document.querySelector(".form-image");
-const nameCategory = ["Objets", "Appartements", "Hotels & restaurants"];
-const gallery = document.querySelector(".gallery");
 const all = document.querySelector(".all");
 const object = document.querySelector(".object");
 const tenement = document.querySelector(".tenement");
@@ -154,6 +152,14 @@ document.querySelector(".close2").addEventListener("click", () => {
   document.querySelector(".modal-add").close();
 });
 
+//ajout d'un event listener sur la flèche de la modal add
+document.querySelector(".back").addEventListener("click", () => {
+  document.querySelector(".modal-add").close();
+  modalAdd.style.display = "none";
+  modal.showModal();
+  modal.style.display = "flex";
+});
+
 //ajout d'un event listener en dehors de la modal add
 document.querySelector(".modal-add").addEventListener("click", (e) => {
   const modalDimensions = document
@@ -194,7 +200,6 @@ formImg.addEventListener("submit", async (e) => {
   window.location.reload();
 });
 
-//refactorisation du code
 //fonction pour récupérer les travaux de l'utilisateur et stockage des données par des variables
 async function fetchWorks() {
   const response = await fetch("http://localhost:5678/api/works");
@@ -264,7 +269,10 @@ function changePhotosModal(...category) {
   //création d'une nouvelle div pour les photos du modal
   let newPhotos = document.createElement("div");
   newPhotos.classList.add("photos");
-  document.querySelector(".modal").appendChild(newPhotos);
+  // insert before hr
+  document
+    .querySelector(".modal")
+    .insertBefore(newPhotos, document.querySelector("hr"));
   // boucle pour afficher les photos du modal
   for (let i = 0; i < numberofWorks; i++) {
     // afficher tous les travaux si aucun paramètre n'est passé

@@ -303,10 +303,6 @@ footer nav ul {
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
 }
 
-.form-info--label {
-  display: flex;
-}
-
 .form-validation {
   height: 3em;
 }
@@ -346,8 +342,8 @@ footer nav ul {
 }
 
 .modal {
-  width: 630px;
-  height: 600px;
+  width: 530px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   margin-top: 2em;
@@ -380,6 +376,7 @@ footer nav ul {
   border-radius: 60px;
   background: #1d6154;
   margin-top: 3em;
+  margin-bottom: 1em;
   margin-left: auto;
   margin-right: auto;
   color: white;
@@ -393,9 +390,10 @@ footer nav ul {
 }
 
 .separator {
-  width: 420px;
+  width: 350px;
   height: 1px;
   background-color: #b3b3b3;
+  margin-top: 2em;
 }
 
 .close {
@@ -431,8 +429,8 @@ figure {
 }
 
 .modal-add {
-  width: 630px;
-  height: 600px;
+  width: 530px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   margin-top: 2em;
@@ -454,9 +452,7 @@ figure {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 478px;
-  height: 104px;
-  margin: 0.5em 4em;
+  height: 154px;
   background-color: #e8f1f6;
 }
 
@@ -468,7 +464,7 @@ figure {
   border-radius: 50px;
 }
 
-.fa-mountain {
+.fa-image {
   color: #1d6154;
   margin-left: auto;
   margin-right: auto;
@@ -481,7 +477,7 @@ figure {
 }
 
 .form-image {
-  width: 250px;
+  width: 350px;
   margin: auto;
   display: flex;
   justify-content: center;
@@ -495,4 +491,36 @@ figure {
   border-radius: 60px;
   border: none;
   margin: auto;
+}
+
+.photos figcaption {
+  margin-left: 1em;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.form-info--label {
+  margin-top: 2em;
+  width: 178px;
+  height: 34px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50px;
+  background-color: #cbd6dc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.form-image label[for="title"] {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.form-image label[for="category"] {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
 }
