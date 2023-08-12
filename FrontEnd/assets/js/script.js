@@ -1,5 +1,5 @@
-const images = [];
-const titles = [];
+const formImg = document.querySelector(".form-image");
+const nameCategory = ["Objets", "Appartements", "Hotels & restaurants"];
 const gallery = document.querySelector(".gallery");
 const all = document.querySelector(".all");
 const object = document.querySelector(".object");
@@ -7,8 +7,29 @@ const tenement = document.querySelector(".tenement");
 const hotel = document.querySelector(".hotel");
 const modal = document.querySelector(".modal");
 const modalAdd = document.querySelector(".modal-add");
-let category1 = [];
 localStorage.getItem("token");
+let idWorks = [];
+let titleWorks = [];
+let imageUrlWorks = [];
+let categoryWorks = [];
+let numberofWorks = 0;
+
+//fonction pour trouver id d'une categorie
+function findIdCategory(category) {
+  let idCategory = 0;
+  switch (category) {
+    case "object":
+      idCategory = 1;
+      break;
+    case "tenement":
+      idCategory = 2;
+      break;
+    case "hotel":
+      idCategory = 3;
+      break;
+  }
+  return idCategory;
+}
 
 //vérifier si l'utilisateur est connecté
 if (localStorage.getItem("token")) {
@@ -27,118 +48,21 @@ if (localStorage.getItem("token")) {
   edit.style.display = "none";
 }
 
-async function fetchWorks() {
-  const response = await fetch("http://localhost:5678/api/works");
-  const json = await response.json();
-  Object.entries(json).forEach(([key, value]) => {
-    let figure = document.createElement("figure");
-    let img = document.createElement("img");
-    let figcaption = document.createElement("figcaption");
-    img.src = value.imageUrl;
-    img.alt = value.title;
-    figcaption.textContent = value.title;
-    figure.appendChild(img);
-    figure.appendChild(figcaption);
-    gallery.appendChild(figure);
-  });
-}
+object.addEventListener("click", () => {
+  displayCategory(1);
+});
 
-fetchWorks();
+tenement.addEventListener("click", () => {
+  displayCategory(2);
+});
 
-async function displayCategory1() {
-  let gallery = document.querySelector(".gallery");
-  gallery.remove();
-  let newGallery = document.createElement("div");
-  newGallery.classList.add("gallery");
-  document.querySelector("#portfolio").appendChild(newGallery);
-  const response = await fetch("http://localhost:5678/api/works");
-  const json = await response.json();
-  Object.entries(json).forEach(([key, value]) => {
-    if (value.categoryId === 1) {
-      let figure = document.createElement("figure");
-      let img = document.createElement("img");
-      let figcaption = document.createElement("figcaption");
-      img.src = value.imageUrl;
-      img.alt = value.title;
-      figcaption.textContent = value.title;
-      figure.appendChild(img);
-      figure.appendChild(figcaption);
-      newGallery.appendChild(figure);
-    }
-  });
-}
+hotel.addEventListener("click", () => {
+  displayCategory(3);
+});
 
-async function displayCategory2() {
-  let gallery = document.querySelector(".gallery");
-  gallery.remove();
-  let newGallery = document.createElement("div");
-  newGallery.classList.add("gallery");
-  document.querySelector("#portfolio").appendChild(newGallery);
-  const response = await fetch("http://localhost:5678/api/works");
-  const json = await response.json();
-  Object.entries(json).forEach(([key, value]) => {
-    if (value.categoryId === 2) {
-      let figure = document.createElement("figure");
-      let img = document.createElement("img");
-      let figcaption = document.createElement("figcaption");
-      img.src = value.imageUrl;
-      img.alt = value.title;
-      figcaption.textContent = value.title;
-      figure.appendChild(img);
-      figure.appendChild(figcaption);
-      newGallery.appendChild(figure);
-    }
-  });
-}
-
-async function displayCategory3() {
-  let gallery = document.querySelector(".gallery");
-  gallery.remove();
-  let newGallery = document.createElement("div");
-  newGallery.classList.add("gallery");
-  document.querySelector("#portfolio").appendChild(newGallery);
-  const response = await fetch("http://localhost:5678/api/works");
-  const json = await response.json();
-  Object.entries(json).forEach(([key, value]) => {
-    if (value.categoryId === 3) {
-      let figure = document.createElement("figure");
-      let img = document.createElement("img");
-      let figcaption = document.createElement("figcaption");
-      img.src = value.imageUrl;
-      img.alt = value.title;
-      figcaption.textContent = value.title;
-      figure.appendChild(img);
-      figure.appendChild(figcaption);
-      newGallery.appendChild(figure);
-    }
-  });
-}
-
-async function displayAll() {
-  let gallery = document.querySelector(".gallery");
-  gallery.remove();
-  let newGallery = document.createElement("div");
-  newGallery.classList.add("gallery");
-  document.querySelector("#portfolio").appendChild(newGallery);
-  const response = await fetch("http://localhost:5678/api/works");
-  const json = await response.json();
-  Object.entries(json).forEach(([key, value]) => {
-    let figure = document.createElement("figure");
-    let img = document.createElement("img");
-    let figcaption = document.createElement("figcaption");
-    img.src = value.imageUrl;
-    img.alt = value.title;
-    figcaption.textContent = value.title;
-    figure.appendChild(img);
-    figure.appendChild(figcaption);
-    newGallery.appendChild(figure);
-  });
-}
-
-object.addEventListener("click", displayCategory1);
-tenement.addEventListener("click", displayCategory2);
-hotel.addEventListener("click", displayCategory3);
-all.addEventListener("click", displayAll);
+all.addEventListener("click", () => {
+  displayCategory();
+});
 
 async function fetchWorksModal() {
   let photos = document.querySelector(".photos");
@@ -175,7 +99,6 @@ document.querySelector(".edit p").addEventListener("click", () => {
 async function deleteWork() {
   document.querySelectorAll(".fa-trash-alt").forEach((trash) => {
     trash.addEventListener("click", async () => {
-      console.log("trash");
       // créer message de confirmation
       let confirmation = confirm("Voulez-vous vraiment supprimer ce travail ?");
       // si oui, supprimer le travail
@@ -246,3 +169,89 @@ document.querySelector(".modal-add").addEventListener("click", (e) => {
     modalAdd.style.display = "none";
   }
 });
+
+formImg.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const file = document.querySelector("#image").files[0];
+  const formData = new FormData();
+  let imageUrl = file;
+  formData.append("image", file);
+  let title = document.querySelector("#title").value;
+  formData.append("title", title);
+  let category = document.querySelector("#category").value;
+  let categoryId = findIdCategory(category);
+  formData.append("category", categoryId);
+  const response = await fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: formData,
+  });
+  const json = await response.json();
+  document.querySelector(".modal-add").close();
+  modalAdd.style.display = "none";
+  window.location.reload();
+});
+
+//refactorisation du code
+//fonction pour récupérer les travaux de l'utilisateur et stockage des données par des variables
+async function fetchWorks() {
+  const response = await fetch("http://localhost:5678/api/works");
+  const json = await response.json();
+  Object.entries(json).forEach(([key, value]) => {
+    //création d'une variable pour stocker les id des travaux
+    idWorks.push(value.id);
+    //création d'une variable pour stocker les titres des travaux
+    titleWorks.push(value.title);
+    //création d'une variable pour stocker les url des travaux
+    imageUrlWorks.push(value.imageUrl);
+    //création d'une variable pour stocker les catégories des travaux
+    categoryWorks.push(value.categoryId);
+    numberofWorks++;
+  });
+}
+
+//fonction pour afficher les travaux avec comme paramètre la ou les catégories à afficher
+
+async function displayCategory(...category) {
+  // suppresion de la gallerie
+  document.querySelector(".gallery").remove();
+  // création d'une nouvelle gallerie
+  let newGallery = document.createElement("div");
+  newGallery.classList.add("gallery");
+  document.querySelector("#portfolio").appendChild(newGallery);
+  // boucle pour afficher les travaux
+  for (let i = 0; i < numberofWorks; i++) {
+    // afficher tous les travaux si aucun paramètre n'est passé
+    if (category.length === 0) {
+      let figure = document.createElement("figure");
+      let img = document.createElement("img");
+      let figcaption = document.createElement("figcaption");
+      img.src = imageUrlWorks[i];
+      img.alt = titleWorks[i];
+      figcaption.textContent = titleWorks[i];
+      figure.appendChild(img);
+      figure.appendChild(figcaption);
+      newGallery.appendChild(figure);
+    } else {
+      // afficher les travaux selon la ou les catégories passées en paramètre
+      for (let j = 0; j < category.length; j++) {
+        if (categoryWorks[i] === category[j]) {
+          let figure = document.createElement("figure");
+          let img = document.createElement("img");
+          let figcaption = document.createElement("figcaption");
+          img.src = imageUrlWorks[i];
+          img.alt = titleWorks[i];
+          figcaption.textContent = titleWorks[i];
+          figure.appendChild(img);
+          figure.appendChild(figcaption);
+          newGallery.appendChild(figure);
+        }
+      }
+    }
+  }
+}
+
+//appel de la fonction pour afficher tous les travaux
+fetchWorks().then(() => displayCategory());

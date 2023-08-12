@@ -92,12 +92,13 @@
 					<button class="close close2"><i class="fa-solid fa-xmark"></i></button>
 				</div>
 				<h2 class="modal-add-title">Ajout photo</h2>
-				<div class="photo-to-add">
-					<i class="fa-solid fa-mountain"></i>
-					<button class="add__photo">+ Ajouter photo</button>
-					<p class="requirement">jpg, png : 4mo max</p>
-				</div>
 				<form class="form-image">
+					<div class="photo-to-add">
+						<i class="fa-solid fa-mountain"></i>
+						<label for="image">Ajouter une photo</label>
+						<input type="file" name="image" id="image">
+						<p class="requirement">jpg, png : 4mo max</p>
+					</div>
 					<label for="title">Titre</label>
 					<input type="text" name="title" id="title">
 					<label for="category">Catégorie</label>
@@ -107,9 +108,9 @@
 						<option value="tenement">Appartements</option>
 						<option value="hotel">Hôtels & restaurants</option>
 					</select>
+					<hr class="separator">
+					<input type="submit" value="Valider" class="validation-add">
 				</form>
-				<hr class="separator">
-				<button class="validation-add">Valider</button>
 			</dialog>
 		</aside>
 		<footer class="bottom__home">
