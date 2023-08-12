@@ -139,6 +139,7 @@ document.querySelector(".add").addEventListener("click", async () => {
   //afficher modal add
   document.querySelector(".modal-add").showModal();
   modalAdd.style.display = "flex";
+  addEventListenerToLoading();
 });
 
 //ajout d'un event listener sur la croix de la modal
@@ -312,4 +313,24 @@ function changePhotosModal(...category) {
     }
   }
   deleteWork();
+}
+
+function addEventListenerToLoading() {
+  document.getElementById("image").addEventListener("change", (e) => {
+    //afficher image à la place de l'icone fontawesome, du label et du texte
+    document.querySelector(".fa-image").style.display = "none";
+    document.querySelector(".photo-to-add input").style.display = "none";
+    document.querySelector(".requirement").style.display = "none";
+    document.querySelector(".form-info--label").style.color = "#E8F1F6";
+    document.querySelector(".form-info--label").style.backgroundColor =
+      "#E8F1F6";
+    //afficher l'image choisie
+    let img = document.createElement("img");
+    img.src = URL.createObjectURL(e.target.files[0]);
+    img.alt = "image";
+    let formLabel = document.querySelector(".form-info--label");
+    formLabel.insertBefore(img, formLabel.childNodes[1]);
+    //ajouter classe
+    img.classList.add("chosen-image");
+  });
 }
