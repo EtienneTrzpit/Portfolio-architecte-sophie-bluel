@@ -35,15 +35,36 @@ if (localStorage.getItem("token")) {
   let login = document.querySelector(".login");
   login.textContent = "Logout";
   login.href = "index.html";
+  //afficher modifier au lieu de project-filter
+  let projectFilter = document.querySelector(".project-filter");
+  projectFilter.remove();
+  let modifier = document.createElement("a");
+  modifier.classList.add("modification");
+  modifier.textContent = "Modifier";
+  let portfolio = document.querySelector("#portfolio");
+  portfolio.insertBefore(modifier, portfolio.childNodes[2]);
+  //aficher avant modifier l'icone fontawesome pen to square
+  let pen = document.createElement("i");
+  pen.classList.add("fas", "fa-pen-square");
+  portfolio.insertBefore(pen, portfolio.childNodes[2]);
+  //ajout d'un lien avec texte modifier et icone fontawesome à la figure dans la section presentation
+  let modifierIntro = document.createElement("a");
+  modifierIntro.textContent = "Modifier";
+  let i = document.createElement("i");
+  i.classList.add("fas", "fa-pen-square");
+  modifierIntro.appendChild(i);
+  document.querySelector("#introduction figure").appendChild(modifierIntro);
   //ajout d'un event listener sur le bouton logout
   login.addEventListener("click", () => {
     localStorage.removeItem("token");
     window.location.reload();
   });
-} else {
-  //si non, cacher div edit
+  //appel de la fonction pour modifier un travail
+  modificationUser();
+
+  //si oui, montrer div edit
   let edit = document.querySelector(".edit");
-  edit.style.display = "none";
+  edit.style.display = "flex";
 }
 
 object.addEventListener("click", () => {
@@ -84,14 +105,24 @@ async function fetchWorksModal() {
 }
 
 fetchWorksModal();
+// englober les 2 addEventListener dans une fonction
+async function modificationUser() {
+  //ajout d'un event listener sur icone fontawesome pen to square
+  document.querySelector(".fa-pen-square").addEventListener("click", () => {
+    //afficher modal
+    modal.showModal();
+    modal.style.display = "flex";
+    deleteWork();
+  });
 
-//ajout d'un event listener sur mode édition
-document.querySelector(".edit p").addEventListener("click", () => {
-  //afficher modal
-  modal.showModal();
-  modal.style.display = "flex";
-  deleteWork();
-});
+  //ajout d'un event listener sur modifier
+  document.querySelector(".modification").addEventListener("click", () => {
+    //afficher modal
+    modal.showModal();
+    modal.style.display = "flex";
+    deleteWork();
+  });
+}
 
 // fonction pour supprimer un travail
 async function deleteWork() {

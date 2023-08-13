@@ -21,8 +21,13 @@ form.addEventListener("submit", (e) => {
       console.log(response);
       // si le serveur renvoie une erreur
       if (response.error) {
-        // afficher l'erreur
-        alert("E-mail ou mot de passe incorrect");
+        // afficher une div avec le message d'erreur à la fin du main
+        const main = document.querySelector("main");
+        const p = document.createElement("p");
+        p.classList.add("error");
+        main.appendChild(p);
+        p.textContent = "Email ou mot de passe incorrect";
+
         // arrêter l'exécution de la fonction
         return;
       }
