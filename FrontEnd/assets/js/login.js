@@ -26,7 +26,7 @@ form.addEventListener("submit", (e) => {
         const p = document.createElement("p");
         p.classList.add("error");
         main.appendChild(p);
-        p.textContent = "Email ou mot de passe incorrect";
+        p.textContent = "Erreur dans l’identifiant ou le mot de passe";
 
         // arrêter l'exécution de la fonction
         return;

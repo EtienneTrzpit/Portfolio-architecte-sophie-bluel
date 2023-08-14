@@ -387,6 +387,7 @@ footer nav ul {
   margin-left: auto;
   margin-right: auto;
   color: white;
+  cursor: pointer;
 }
 
 .delete {
@@ -394,6 +395,7 @@ footer nav ul {
   text-align: center;
   border: none;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .separator {

@@ -34,7 +34,7 @@ function findIdCategory(category) {
 if (localStorage.getItem("token")) {
   //si oui, afficher logout au lieu de login
   let login = document.querySelector(".login");
-  login.textContent = "Logout";
+  login.textContent = "logout";
   login.href = "index.html";
   //afficher modifier au lieu de project-filter
   let projectFilter = document.querySelector(".project-filter");
@@ -145,23 +145,18 @@ async function modificationUser() {
 async function deleteWork() {
   document.querySelectorAll(".fa-trash-alt").forEach((trash) => {
     trash.addEventListener("click", async () => {
-      // créer message de confirmation
-      let confirmation = confirm("Voulez-vous vraiment supprimer ce travail ?");
-      // si oui, supprimer le travail
-      if (confirmation) {
-        const response = await fetch(
-          `http://localhost:5678/api/works/${trash.id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        // supprimer le travail dans le DOM
-        trash.parentNode.remove();
-      }
+      const response = await fetch(
+        `http://localhost:5678/api/works/${trash.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // supprimer le travail dans le DOM
+      trash.parentNode.remove();
     });
   });
 }
