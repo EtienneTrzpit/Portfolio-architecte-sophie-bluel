@@ -277,6 +277,14 @@ footer nav ul {
   /* espacement entre les boutons */
   margin-right: 1em;
   margin-left: 1em;
+  border-radius: 60px;
+  border: 1px solid #1d6154;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+.type:hover {
+  color: #1d6154;
 }
 
 .login {
@@ -569,6 +577,7 @@ input[type="file"] {
 .login-link {
   color: black;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .label-login {
@@ -582,4 +591,23 @@ input[type="file"] {
 .error {
   color: red;
   margin-top: 2em;
+}
+
+.menu:hover {
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.menu.index {
+  font-weight: normal;
+}
+
+.menu:hover {
+  font-weight: bold;
+}
+
+.all {
+  background-color: #1d6154;
+  color: white;
 }

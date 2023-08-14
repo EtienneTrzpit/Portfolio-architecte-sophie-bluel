@@ -11,6 +11,7 @@ let titleWorks = [];
 let imageUrlWorks = [];
 let categoryWorks = [];
 let numberofWorks = 0;
+let typeClass = "all";
 
 //fonction pour trouver id d'une categorie
 function findIdCategory(category) {
@@ -69,19 +70,35 @@ if (localStorage.getItem("token")) {
 
 object.addEventListener("click", () => {
   displayCategory(1);
+  //colorer la catégorie sélectionnée
+  highlightCategory(object);
 });
 
 tenement.addEventListener("click", () => {
   displayCategory(2);
+  highlightCategory(tenement);
 });
 
 hotel.addEventListener("click", () => {
   displayCategory(3);
+  highlightCategory(hotel);
 });
 
 all.addEventListener("click", () => {
   displayCategory();
+  highlightCategory(all);
 });
+
+async function highlightCategory(type) {
+  type.style.backgroundColor = "#1D6154";
+  type.style.color = "white";
+  if (typeClass !== type.classList[1]) {
+    document.querySelector(`.${typeClass}`).style.backgroundColor = "white";
+    document.querySelector(`.${typeClass}`).style.color = "#1D6154";
+  }
+  //mémoriser la classe du type sélectionné
+  typeClass = type.classList[1];
+}
 
 async function fetchWorksModal() {
   let photos = document.querySelector(".photos");
