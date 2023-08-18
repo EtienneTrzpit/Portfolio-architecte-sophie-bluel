@@ -356,6 +356,8 @@ footer nav ul {
   margin-top: 2em;
   margin-bottom: 2em;
   display: none;
+  border-radius: 10px;
+  border-style: none;
 }
 
 .photos {
@@ -375,6 +377,11 @@ footer nav ul {
 .modal h2 {
   margin-left: auto;
   margin-right: auto;
+  font-weight: 400;
+  font-family: "Work Sans";
+  margin-bottom: 0.5em;
+  font-size: 26px;
+  margin-top: 0.2em;
 }
 
 .add {
@@ -399,10 +406,11 @@ footer nav ul {
 }
 
 .separator {
-  width: 350px;
+  width: 425px;
   height: 1px;
   background-color: #b3b3b3;
   margin-top: 2em;
+  margin-right: 4em;
 }
 
 .close {
@@ -439,12 +447,14 @@ figure {
 
 .modal-add {
   width: 530px;
-  height: 630px;
+  height: 570px;
   display: flex;
   flex-direction: column;
   margin-top: 2em;
   margin-bottom: 2em;
   display: none;
+  border-radius: 10px;
+  border-style: none;
 }
 
 .modal-add-top {
@@ -453,15 +463,20 @@ figure {
 }
 
 .modal-add-title {
-  display: flex;
-  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+  font-family: "Work Sans";
+  margin-bottom: 0.5em;
+  font-size: 26px;
+  margin-top: 0.2em;
 }
 
 .photo-to-add {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 154px;
+  height: 180px;
   background-color: #e8f1f6;
 }
 
@@ -477,6 +492,7 @@ figure {
   color: #1d6154;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 0.5em;
 }
 
 .requirement {
@@ -486,7 +502,7 @@ figure {
 }
 
 .form-image {
-  width: 350px;
+  width: 425px;
   margin: auto;
   display: flex;
   justify-content: center;
@@ -494,12 +510,14 @@ figure {
   flex-direction: column;
 }
 
-.validation-add {
-  width: 139px;
+input.validation-add {
+  width: 237px;
   height: 36px;
   border-radius: 60px;
   border: none;
   margin: auto;
+  background-color: #a7a7a7;
+  margin-top: 2em;
 }
 
 .photos figcaption {
@@ -512,7 +530,6 @@ input[type="file"] {
 }
 
 .form-info--label {
-  margin-top: 2em;
   width: 178px;
   height: 34px;
   margin-left: auto;
@@ -525,14 +542,16 @@ input[type="file"] {
   cursor: pointer;
 }
 
-.form-image label[for="title"] {
+.form-image label {
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
 
-.form-image label[for="category"] {
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+.form-image input[type="text"],
+.form-image select {
+  height: 40px;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  border: none;
 }
 
 .chosen-image {
