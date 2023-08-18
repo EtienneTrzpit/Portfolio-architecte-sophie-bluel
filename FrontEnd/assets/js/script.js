@@ -109,7 +109,7 @@ async function fetchWorksModal() {
     let img = document.createElement("img");
     let figcaption = document.createElement("figcaption");
     let trash = document.createElement("i");
-    trash.classList.add("fas", "fa-trash-alt");
+    trash.classList.add("fas", "fa-trash-alt", "fa-2xs");
     trash.id = value.id;
     img.src = value.imageUrl;
     img.alt = value.title;
@@ -130,6 +130,7 @@ async function modificationUser() {
     modal.showModal();
     modal.style.display = "flex";
     deleteWork();
+    deleteAllWorks();
   });
 
   //ajout d'un event listener sur modifier
@@ -138,6 +139,7 @@ async function modificationUser() {
     modal.showModal();
     modal.style.display = "flex";
     deleteWork();
+    deleteAllWorks();
   });
 }
 
@@ -157,6 +159,32 @@ async function deleteWork() {
       );
       // supprimer le travail dans le DOM
       trash.parentNode.remove();
+    });
+  });
+}
+
+// fonction pour supprimer tous les travaux
+async function deleteAllWorks() {
+  document.querySelector(".delete").addEventListener("click", async () => {
+    // récpérer tous les id des travaux
+    const response = await fetch("http://localhost:5678/api/works");
+    const json = await response.json();
+    Object.entries(json).forEach(async ([key, value]) => {
+      // supprimer le travail dans la base de données
+      const response = await fetch(
+        `http://localhost:5678/api/works/${value.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            id: value.id,
+          }),
+        }
+      );
     });
   });
 }

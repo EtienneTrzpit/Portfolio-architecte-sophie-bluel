@@ -350,7 +350,7 @@ footer nav ul {
 
 .modal {
   width: 530px;
-  height: 480px;
+  height: 630px;
   display: flex;
   flex-direction: column;
   margin-top: 2em;
@@ -369,7 +369,7 @@ footer nav ul {
 .modal img {
   width: 78px;
   height: 104px;
-  margin: 0.5em 1em;
+  margin: 0.5em 0.3em;
 }
 
 .modal h2 {
@@ -425,10 +425,10 @@ footer nav ul {
 
 .fa-trash-alt {
   position: absolute;
-  left: 60px;
-  top: 20px;
+  left: 55px;
+  top: 15px;
   color: white;
-  padding: 7px;
+  padding: 4px;
   background-color: black;
   border-radius: 4px;
 }
@@ -439,7 +439,7 @@ figure {
 
 .modal-add {
   width: 530px;
-  height: 480px;
+  height: 630px;
   display: flex;
   flex-direction: column;
   margin-top: 2em;
@@ -503,7 +503,8 @@ figure {
 }
 
 .photos figcaption {
-  margin-left: 1em;
+  margin-left: 0.5em;
+  font-size: small;
 }
 
 input[type="file"] {
