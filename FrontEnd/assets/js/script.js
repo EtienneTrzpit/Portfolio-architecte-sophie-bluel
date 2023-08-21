@@ -202,6 +202,8 @@ if (localStorage.getItem("token")) {
   //si oui, montrer div edit
   let edit = document.querySelector(".edit");
   edit.style.display = "flex";
+  let header = document.querySelector(".header");
+  header.style.marginTop = "90px";
 }
 
 modal.addEventListener("click", (e) => {

@@ -212,6 +212,7 @@ li:hover {
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
+  margin-top: 8em;
 }
 
 .gallery img {
@@ -327,6 +328,10 @@ footer nav ul {
 }
 
 .edit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 101.4%;
   display: none;
   justify-content: center;
   align-items: center;
@@ -338,8 +343,9 @@ footer nav ul {
 .edit p {
   color: white;
   font-size: 1.2em;
-  margin-top: 0.5em;
+  margin-top: 0em;
   margin-left: 1em;
+  margin-right: 1em;
 }
 
 .edit button {
@@ -570,8 +576,8 @@ input[type="file"] {
 #portfolio i,
 #portfolio p {
   position: absolute;
-  right: 50em;
-  top: 43em;
+  right: 53em;
+  top: 41.7em;
   cursor: pointer;
 }
 
