@@ -13,91 +13,21 @@ let categoryWorks = [];
 let numberofWorks = 0;
 let typeClass = "all";
 
-//fonction pour trouver id d'une categorie
-function findIdCategory(category) {
-  let idCategory = 0;
-  switch (category) {
-    case "object":
-      idCategory = 1;
-      break;
-    case "tenement":
-      idCategory = 2;
-      break;
-    case "hotel":
-      idCategory = 3;
-      break;
-  }
-  return idCategory;
-}
-
-//vérifier si l'utilisateur est connecté
-if (localStorage.getItem("token")) {
-  //si oui, afficher logout au lieu de login
-  let login = document.querySelector(".login");
-  login.textContent = "logout";
-  login.href = "index.html";
-  //afficher modifier au lieu de project-filter
-  let projectFilter = document.querySelector(".project-filter");
-  projectFilter.remove();
-  let modifier = document.createElement("a");
-  modifier.classList.add("modification");
-  modifier.textContent = "Modifier";
-  let portfolio = document.querySelector("#portfolio");
-  portfolio.insertBefore(modifier, portfolio.childNodes[2]);
-  //aficher avant modifier l'icone fontawesome pen to square
-  let pen = document.createElement("i");
-  pen.classList.add("fas", "fa-pen-square");
-  portfolio.insertBefore(pen, portfolio.childNodes[2]);
-  //ajout d'un lien avec texte modifier et icone fontawesome à la figure dans la section presentation
-  let modifierIntro = document.createElement("a");
-  modifierIntro.textContent = "Modifier";
-  let i = document.createElement("i");
-  i.classList.add("fas", "fa-pen-square");
-  modifierIntro.appendChild(i);
-  document.querySelector("#introduction figure").appendChild(modifierIntro);
-  //ajout d'un event listener sur le bouton logout
-  login.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    window.location.reload();
+//fonction pour récupérer les travaux de l'utilisateur et stockage des données par des variables
+async function fetchWorks() {
+  const response = await fetch("http://localhost:5678/api/works");
+  const json = await response.json();
+  Object.entries(json).forEach(([key, value]) => {
+    //création d'une variable pour stocker les id des travaux
+    idWorks.push(value.id);
+    //création d'une variable pour stocker les titres des travaux
+    titleWorks.push(value.title);
+    //création d'une variable pour stocker les url des travaux
+    imageUrlWorks.push(value.imageUrl);
+    //création d'une variable pour stocker les catégories des travaux
+    categoryWorks.push(value.categoryId);
+    numberofWorks++;
   });
-  //appel de la fonction pour modifier un travail
-  modificationUser();
-
-  //si oui, montrer div edit
-  let edit = document.querySelector(".edit");
-  edit.style.display = "flex";
-}
-
-object.addEventListener("click", () => {
-  displayCategory(1);
-  //colorer la catégorie sélectionnée
-  highlightCategory(object);
-});
-
-tenement.addEventListener("click", () => {
-  displayCategory(2);
-  highlightCategory(tenement);
-});
-
-hotel.addEventListener("click", () => {
-  displayCategory(3);
-  highlightCategory(hotel);
-});
-
-all.addEventListener("click", () => {
-  displayCategory();
-  highlightCategory(all);
-});
-
-async function highlightCategory(type) {
-  type.style.backgroundColor = "#1D6154";
-  type.style.color = "white";
-  if (typeClass !== type.classList[1]) {
-    document.querySelector(`.${typeClass}`).style.backgroundColor = "white";
-    document.querySelector(`.${typeClass}`).style.color = "#1D6154";
-  }
-  //mémoriser la classe du type sélectionné
-  typeClass = type.classList[1];
 }
 
 async function fetchWorksModal() {
@@ -122,171 +52,33 @@ async function fetchWorksModal() {
 }
 
 fetchWorksModal();
-// englober les 2 addEventListener dans une fonction
-async function modificationUser() {
-  //ajout d'un event listener sur icone fontawesome pen to square
-  document.querySelector(".fa-pen-square").addEventListener("click", () => {
-    //afficher modal
-    modal.showModal();
-    modal.style.display = "flex";
-    deleteWork();
-    deleteAllWorks();
-  });
 
-  //ajout d'un event listener sur modifier
-  document.querySelector(".modification").addEventListener("click", () => {
-    //afficher modal
-    modal.showModal();
-    modal.style.display = "flex";
-    deleteWork();
-    deleteAllWorks();
-  });
-}
-
-// fonction pour supprimer un travail
-async function deleteWork() {
-  document.querySelectorAll(".fa-trash-alt").forEach((trash) => {
-    trash.addEventListener("click", async () => {
-      const response = await fetch(
-        `http://localhost:5678/api/works/${trash.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // supprimer le travail dans le DOM
-      trash.parentNode.remove();
-    });
-  });
-}
-
-// fonction pour supprimer tous les travaux
-async function deleteAllWorks() {
-  document.querySelector(".delete").addEventListener("click", async () => {
-    // récpérer tous les id des travaux
-    const response = await fetch("http://localhost:5678/api/works");
-    const json = await response.json();
-    Object.entries(json).forEach(async ([key, value]) => {
-      // supprimer le travail dans la base de données
-      const response = await fetch(
-        `http://localhost:5678/api/works/${value.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({
-            id: value.id,
-          }),
-        }
-      );
-    });
-  });
-}
-
-modal.addEventListener("click", (e) => {
-  const modalDimensions = modal.getBoundingClientRect();
-  if (
-    e.clientX < modalDimensions.left ||
-    e.clientX > modalDimensions.right ||
-    e.clientY < modalDimensions.top ||
-    e.clientY > modalDimensions.bottom
-  ) {
-    modal.close();
-    modal.style.display = "none";
+//fonction pour trouver id d'une categorie
+function findIdCategory(category) {
+  let idCategory = 0;
+  switch (category) {
+    case "object":
+      idCategory = 1;
+      break;
+    case "tenement":
+      idCategory = 2;
+      break;
+    case "hotel":
+      idCategory = 3;
+      break;
   }
-});
+  return idCategory;
+}
 
-//ajout d'un event listener sur le bouton ajouter
-document.querySelector(".add").addEventListener("click", async () => {
-  //cacher modal
-  modal.close();
-  modal.style.display = "none";
-  //afficher modal add
-  document.querySelector(".modal-add").showModal();
-  modalAdd.style.display = "flex";
-  addEventListenerToLoading();
-});
-
-//ajout d'un event listener sur la croix de la modal
-document.querySelector(".close1").addEventListener("click", () => {
-  document.querySelector(".modal").close();
-  modal.style.display = "none";
-});
-
-//ajout d'un event listener sur la croix de la modal add
-document.querySelector(".close2").addEventListener("click", () => {
-  document.querySelector(".modal-add").close();
-});
-
-//ajout d'un event listener sur la flèche de la modal add
-document.querySelector(".back").addEventListener("click", () => {
-  document.querySelector(".modal-add").close();
-  modalAdd.style.display = "none";
-  modal.showModal();
-  modal.style.display = "flex";
-});
-
-//ajout d'un event listener en dehors de la modal add
-document.querySelector(".modal-add").addEventListener("click", (e) => {
-  const modalDimensions = document
-    .querySelector(".modal-add")
-    .getBoundingClientRect();
-  if (
-    e.clientX < modalDimensions.left ||
-    e.clientX > modalDimensions.right ||
-    e.clientY < modalDimensions.top ||
-    e.clientY > modalDimensions.bottom
-  ) {
-    document.querySelector(".modal-add").close();
-    modalAdd.style.display = "none";
+async function highlightCategory(type) {
+  type.style.backgroundColor = "#1D6154";
+  type.style.color = "white";
+  if (typeClass !== type.classList[1]) {
+    document.querySelector(`.${typeClass}`).style.backgroundColor = "white";
+    document.querySelector(`.${typeClass}`).style.color = "#1D6154";
   }
-});
-
-formImg.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const file = document.querySelector("#image").files[0];
-  const formData = new FormData();
-  let imageUrl = file;
-  formData.append("image", file);
-  let title = document.querySelector("#title").value;
-  formData.append("title", title);
-  let category = document.querySelector("#category").value;
-  let categoryId = findIdCategory(category);
-  formData.append("category", categoryId);
-  const response = await fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-    body: formData,
-  });
-  const json = await response.json();
-  document.querySelector(".modal-add").close();
-  modalAdd.style.display = "none";
-  window.location.reload();
-});
-
-//fonction pour récupérer les travaux de l'utilisateur et stockage des données par des variables
-async function fetchWorks() {
-  const response = await fetch("http://localhost:5678/api/works");
-  const json = await response.json();
-  Object.entries(json).forEach(([key, value]) => {
-    //création d'une variable pour stocker les id des travaux
-    idWorks.push(value.id);
-    //création d'une variable pour stocker les titres des travaux
-    titleWorks.push(value.title);
-    //création d'une variable pour stocker les url des travaux
-    imageUrlWorks.push(value.imageUrl);
-    //création d'une variable pour stocker les catégories des travaux
-    categoryWorks.push(value.categoryId);
-    numberofWorks++;
-  });
+  //mémoriser la classe du type sélectionné
+  typeClass = type.classList[1];
 }
 
 //fonction pour afficher les travaux avec comme paramètre la ou les catégories à afficher
@@ -334,8 +126,248 @@ async function displayCategory(...category) {
 //appel de la fonction pour afficher tous les travaux
 fetchWorks().then(() => displayCategory());
 
+object.addEventListener("click", () => {
+  displayCategory(1);
+  //colorer la catégorie sélectionnée
+  highlightCategory(object);
+});
+
+tenement.addEventListener("click", () => {
+  displayCategory(2);
+  highlightCategory(tenement);
+});
+
+hotel.addEventListener("click", () => {
+  displayCategory(3);
+  highlightCategory(hotel);
+});
+
+all.addEventListener("click", () => {
+  displayCategory();
+  highlightCategory(all);
+});
+
+async function modificationUser() {
+  //ajout d'un event listener sur icone fontawesome pen to square
+  let modifications = document.querySelectorAll(
+    ".fa-pen-to-square, .modification"
+  );
+  modifications.forEach((modification) => {
+    modification.addEventListener("click", () => {
+      //afficher modal
+      modal.showModal();
+      modal.style.display = "flex";
+      deleteWork();
+      deleteAllWorks();
+      /* edit();*/
+    });
+  });
+}
+
+//vérifier si l'utilisateur est connecté
+if (localStorage.getItem("token")) {
+  //si oui, afficher logout au lieu de login
+  let login = document.querySelector(".login");
+  login.textContent = "logout";
+  login.href = "index.html";
+  //afficher modifier au lieu de project-filter
+  let projectFilter = document.querySelector(".project-filter");
+  projectFilter.remove();
+  let modifier = document.createElement("p");
+  modifier.classList.add("modification");
+  modifier.textContent = "Modifier";
+  let portfolio = document.querySelector("#portfolio");
+  portfolio.insertBefore(modifier, portfolio.childNodes[2]);
+  //aficher avant modifier l'icone fontawesome pen to square
+  let pen = document.createElement("i");
+  pen.classList.add("fas", "fa-pen-to-square");
+  portfolio.insertBefore(pen, portfolio.childNodes[2]);
+  //ajout d'un lien avec texte modifier et icone fontawesome à la figure dans la section presentation
+  let introduction = document.querySelector("#introduction figure");
+  let modification = document.createElement("p");
+  modification.classList.add("modification");
+  modification.textContent = "Modifier";
+  introduction.appendChild(modification);
+  let pen2 = document.createElement("i");
+  pen2.classList.add("fas", "fa-pen-to-square");
+  introduction.appendChild(pen2);
+  //ajout d'un event listener sur le bouton logout
+  login.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  });
+  //appel de la fonction pour modifier un travail
+  modificationUser();
+
+  //si oui, montrer div edit
+  let edit = document.querySelector(".edit");
+  edit.style.display = "flex";
+}
+
+modal.addEventListener("click", (e) => {
+  const modalDimensions = modal.getBoundingClientRect();
+  if (
+    e.clientX < modalDimensions.left ||
+    e.clientX > modalDimensions.right ||
+    e.clientY < modalDimensions.top ||
+    e.clientY > modalDimensions.bottom
+  ) {
+    modal.close();
+    modal.style.display = "none";
+  }
+});
+
+//ajout d'un event listener en dehors de la modal add
+modalAdd.addEventListener("click", (e) => {
+  const modalDimensions = document
+    .querySelector(".modal-add")
+    .getBoundingClientRect();
+  if (
+    e.clientX < modalDimensions.left ||
+    e.clientX > modalDimensions.right ||
+    e.clientY < modalDimensions.top ||
+    e.clientY > modalDimensions.bottom
+  ) {
+    document.querySelector(".modal-add").close();
+    modalAdd.style.display = "none";
+  }
+});
+
+//ajout d'un event listener sur la croix de la modal
+document.querySelector(".close1").addEventListener("click", () => {
+  document.querySelector(".modal").close();
+  modal.style.display = "none";
+});
+
+//ajout d'un event listener sur la croix de la modal add
+document.querySelector(".close2").addEventListener("click", () => {
+  document.querySelector(".modal-add").close();
+});
+
+//ajout d'un event listener sur la flèche de la modal add
+document.querySelector(".back").addEventListener("click", () => {
+  document.querySelector(".modal-add").close();
+  modalAdd.style.display = "none";
+  modal.showModal();
+  modal.style.display = "flex";
+  /* edit();*/
+});
+
+//ajout d'un event listener sur le bouton ajouter
+document.querySelector(".add").addEventListener("click", async () => {
+  //cacher modal
+  modal.close();
+  modal.style.display = "none";
+  //afficher modal add
+  document.querySelector(".modal-add").showModal();
+  modalAdd.style.display = "flex";
+  addEventListenerToLoading();
+});
+
+// fonction pour supprimer un travail
+async function deleteWork() {
+  document.querySelectorAll(".fa-trash-alt").forEach((trash) => {
+    trash.addEventListener("click", async () => {
+      const response = await fetch(
+        `http://localhost:5678/api/works/${trash.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // vérifier si le travail a bien été supprimé
+      console.log(response);
+      // supprimer le travail dans le DOM
+      trash.parentNode.remove();
+    });
+  });
+}
+
+// fonction pour supprimer tous les travaux
+async function deleteAllWorks() {
+  document.querySelector(".delete").addEventListener("click", async () => {
+    // récpérer tous les id des travaux
+    const response = await fetch("http://localhost:5678/api/works");
+    const json = await response.json();
+    Object.entries(json).forEach(async ([key, value]) => {
+      // supprimer le travail dans la base de données
+      const response = await fetch(
+        `http://localhost:5678/api/works/${value.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            id: value.id,
+          }),
+        }
+      );
+    });
+  });
+}
+
+formImg.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  let error;
+  // voir si le formulaire est valide
+  if (
+    !document.querySelector("#image").value ||
+    !document.querySelector("#title").value ||
+    !document.querySelector("#category").value
+  ) {
+    // afficher message d'erreur en rouge en dessous du formulaire
+    error = document.createElement("p");
+    error.textContent = "Veuillez remplir tous les champs";
+    error.style.color = "red";
+    document.querySelector(".modal-add").appendChild(error);
+  }
+  // cas où le fichier ne rempli pas les conditions jpg, npg ou a une taille supérieure à 4Mo
+  if (
+    document.querySelector("#image").files[0].type !== "image/jpeg" &&
+    document.querySelector("#image").files[0].type !== "image/png" &&
+    document.querySelector("#image").files[0].size > 4000000
+  ) {
+    // afficher message d'erreur en rouge en dessous du formulaire
+    error = document.createElement("p");
+    error.textContent =
+      "Veuillez choisir un fichier jpg ou png de moins de 4Mo";
+    error.style.color = "red";
+    document.querySelector(".modal-add").appendChild(error);
+  } else {
+    if (error !== undefined) {
+      error.remove();
+    }
+    const file = document.querySelector("#image").files[0];
+    const formData = new FormData();
+    let imageUrl = file;
+    formData.append("image", file);
+    let title = document.querySelector("#title").value;
+    formData.append("title", title);
+    let category = document.querySelector("#category").value;
+    let categoryId = findIdCategory(category);
+    formData.append("category", categoryId);
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: formData,
+    });
+    const json = await response.json();
+    document.querySelector(".modal-add").close();
+    modalAdd.style.display = "none";
+    window.location.reload();
+  }
+});
+
 //fonction pour changer photos du modal en fonction de ce qu'affiche la gallerie
-function changePhotosModal(...category) {
+async function changePhotosModal(...category) {
   //suppression des photos du modal
   document.querySelector(".photos").remove();
   //création d'une nouvelle div pour les photos du modal
@@ -386,7 +418,7 @@ function changePhotosModal(...category) {
   deleteWork();
 }
 
-function addEventListenerToLoading() {
+async function addEventListenerToLoading() {
   document.getElementById("image").addEventListener("change", (e) => {
     //afficher image à la place de l'icone fontawesome, du label et du texte
     document.querySelector(".fa-image").style.display = "none";
@@ -405,3 +437,26 @@ function addEventListenerToLoading() {
     img.classList.add("chosen-image");
   });
 }
+/*
+async function edit() {
+  //ajout d'un event listener sur figcaption du modal
+  document.querySelectorAll(".photos figcaption").forEach((figcaption) => {
+    figcaption.addEventListener("click", (e) => {
+      console.log("test");
+      //afficher modal edit
+
+      document.querySelector(".modal-edit").showModal();
+      document.querySelector(".modal-edit").style.display = "flex";
+      //afficher image dans la  modal edit avant label
+      let img = document.createElement("img");
+      // l'url de l'image est l'élément précédent de figcaption
+      img.src = e.target.previousElementSibling.src;
+      img.alt = "image";
+      let formLabel = document.querySelector(".form-image");
+      formLabel.insertBefore(img, formLabel.childNodes[1]);
+      //ajouter classe
+      img.classList.add("image-figure");
+    });
+  });
+}
+*/

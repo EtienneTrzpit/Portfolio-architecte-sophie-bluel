@@ -18,10 +18,13 @@ form.addEventListener("submit", (e) => {
     .then((response) => response.json())
     // faire quelque chose avec la réponse
     .then((response) => {
-      console.log(response);
       // si le serveur renvoie une erreur
       if (response.error) {
         // afficher une div avec le message d'erreur à la fin du main
+        //cas si il y a déjà un message d'erreur
+        if (document.querySelector(".error")) {
+          document.querySelector(".error").remove();
+        }
         const main = document.querySelector("main");
         const p = document.createElement("p");
         p.classList.add("error");

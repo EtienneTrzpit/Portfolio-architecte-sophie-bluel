@@ -439,6 +439,7 @@ footer nav ul {
   padding: 4px;
   background-color: black;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 figure {
@@ -518,6 +519,7 @@ input.validation-add {
   margin: auto;
   background-color: #a7a7a7;
   margin-top: 2em;
+  cursor: pointer;
 }
 
 .photos figcaption {
@@ -555,9 +557,9 @@ input[type="file"] {
 }
 
 .chosen-image {
-  height: 154px;
+  height: 180px;
   margin-right: 4em;
-  margin-bottom: 2em;
+  margin-bottom: 0.5em;
 }
 
 #portfolio h2 {
@@ -565,9 +567,9 @@ input[type="file"] {
 }
 
 #portfolio i,
-#portfolio a {
+#portfolio p {
   position: absolute;
-  right: 30em;
+  right: 50em;
   top: 43em;
   cursor: pointer;
 }
@@ -578,7 +580,7 @@ input[type="file"] {
 }
 
 #introduction i,
-#introduction a {
+#introduction figure p {
   position: absolute;
   right: 30em;
   top: 25em;
@@ -592,8 +594,8 @@ input[type="file"] {
 #introduction i {
   color: #1d6154;
   z-index: 88;
-  right: 5em;
-  top: 0;
+  right: 35em;
+  top: 25em;
 }
 
 .login-link {
@@ -632,4 +634,24 @@ input[type="file"] {
 .all {
   background-color: #1d6154;
   color: white;
+}
+
+.modal-edit {
+  width: 530px;
+  height: 570px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  display: none;
+  border-radius: 10px;
+  border-style: none;
+}
+
+#portfolio .fa-pen-to-square {
+  color: black;
+}
+
+#introduction .fa-pen-to-square {
+  color: black;
 }
