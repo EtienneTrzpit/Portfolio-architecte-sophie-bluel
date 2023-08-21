@@ -313,6 +313,7 @@ footer nav ul {
 
 .form-validation {
   height: 3em;
+  cursor: pointer;
 }
 
 .password-forgotten {

@@ -278,8 +278,10 @@ async function deleteWork() {
           },
         }
       );
-      // vérifier si le travail a bien été supprimé
-      console.log(response);
+      // fermer la modal
+      document.querySelector(".modal").close();
+      modal.style.display = "none";
+      window.location.reload();
       // supprimer le travail dans le DOM
       trash.parentNode.remove();
     });
