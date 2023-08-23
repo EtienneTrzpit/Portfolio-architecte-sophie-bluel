@@ -319,54 +319,67 @@ async function deleteAllWorks() {
 formImg.addEventListener("submit", async (e) => {
   e.preventDefault();
   let error;
-  // voir si le formulaire est valide
+  let file = document.querySelector("#image").files[0];
+  let limit = 4000000;
   if (
-    !document.querySelector("#image").value ||
-    !document.querySelector("#title").value ||
-    !document.querySelector("#category").value
+    file === undefined ||
+    document.querySelector("#title").value === "" ||
+    document.querySelector("#category").value === ""
   ) {
     // afficher message d'erreur en rouge en dessous du formulaire
     error = document.createElement("p");
     error.textContent = "Veuillez remplir tous les champs";
     error.style.color = "red";
     document.querySelector(".modal-add").appendChild(error);
-  }
-  // cas où le fichier ne rempli pas les conditions jpg, npg ou a une taille supérieure à 4Mo
-  if (
-    document.querySelector("#image").files[0].type !== "image/jpeg" &&
-    document.querySelector("#image").files[0].type !== "image/png" &&
-    document.querySelector("#image").files[0].size > 4000000
-  ) {
-    // afficher message d'erreur en rouge en dessous du formulaire
-    error = document.createElement("p");
-    error.textContent =
-      "Veuillez choisir un fichier jpg ou png de moins de 4Mo";
-    error.style.color = "red";
-    document.querySelector(".modal-add").appendChild(error);
-  } else {
-    if (error !== undefined) {
-      error.remove();
+    // supprimer message d'erreur s'il existe
+    let precedentError = document.querySelector(".modal-add p");
+    if (precedentError) {
+      precedentError.remove();
     }
-    const file = document.querySelector("#image").files[0];
-    const formData = new FormData();
-    let imageUrl = file;
-    formData.append("image", file);
-    let title = document.querySelector("#title").value;
-    formData.append("title", title);
-    let category = document.querySelector("#category").value;
-    let categoryId = findIdCategory(category);
-    formData.append("category", categoryId);
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: formData,
-    });
-    const json = await response.json();
-    document.querySelector(".modal-add").close();
-    modalAdd.style.display = "none";
-    window.location.reload();
+  } else {
+    let size = file.size / 1024;
+    // supprimer message d'erreur s'il existe
+    let precedentError = document.querySelector(".modal-add p");
+    if (precedentError) {
+      precedentError.remove();
+    }
+    // cas où le fichier est trop lourd
+    if (size > limit) {
+      // afficher message d'erreur en rouge en dessous du formulaire
+      error = document.createElement("p");
+      error.textContent = "Le fichier est trop lourd";
+      error.style.color = "red";
+      document.querySelector(".modal-add").appendChild(error);
+    }
+    // cas où le fichier n'est pas un png ou jpg
+    if (file.type !== "image/png" && file.type !== "image/jpeg") {
+      // afficher message d'erreur en rouge en dessous du formulaire
+      error = document.createElement("p");
+      error.textContent = "Le fichier doit être un png ou jpg";
+      error.style.color = "red";
+      document.querySelector(".modal-add").appendChild(error);
+    } else {
+      const file = document.querySelector("#image").files[0];
+      const formData = new FormData();
+      let imageUrl = file;
+      formData.append("image", file);
+      let title = document.querySelector("#title").value;
+      formData.append("title", title);
+      let category = document.querySelector("#category").value;
+      let categoryId = findIdCategory(category);
+      formData.append("category", categoryId);
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
+      const json = await response.json();
+      document.querySelector(".modal-add").close();
+      modalAdd.style.display = "none";
+      window.location.reload();
+    }
   }
 });
 
@@ -424,13 +437,18 @@ async function changePhotosModal(...category) {
 
 async function addEventListenerToLoading() {
   document.getElementById("image").addEventListener("change", (e) => {
-    //afficher image à la place de l'icone fontawesome, du label et du texte
-    document.querySelector(".fa-image").style.display = "none";
-    document.querySelector(".photo-to-add input").style.display = "none";
-    document.querySelector(".requirement").style.display = "none";
-    document.querySelector(".form-info--label").style.color = "#E8F1F6";
-    document.querySelector(".form-info--label").style.backgroundColor =
-      "#E8F1F6";
+    //afficher image à la place de l'icone fontawesome, du label et du texte si ils existent
+    if (document.querySelector(".requirement")) {
+      document.querySelector(".fa-image").style.display = "none";
+      document.querySelector(".photo-to-add input").style.display = "none";
+      document.querySelector(".requirement").style.display = "none";
+      document.querySelector(".form-info--label").style.color = "#E8F1F6";
+      document.querySelector(".form-info--label").style.backgroundColor =
+        "#E8F1F6";
+    }
+    if (document.querySelector(".chosen-image")) {
+      document.querySelector(".chosen-image").remove();
+    }
     //afficher l'image choisie
     let img = document.createElement("img");
     img.src = URL.createObjectURL(e.target.files[0]);
