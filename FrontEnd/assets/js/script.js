@@ -268,7 +268,9 @@ document.querySelector(".add").addEventListener("click", async () => {
 
 // fonction pour supprimer un travail
 async function deleteWork() {
+  let i = 0;
   document.querySelectorAll(".fa-trash-alt").forEach((trash) => {
+    i++;
     trash.addEventListener("click", async () => {
       const response = await fetch(
         `http://localhost:5678/api/works/${trash.id}`,
@@ -283,9 +285,8 @@ async function deleteWork() {
       // fermer la modal
       document.querySelector(".modal").close();
       modal.style.display = "none";
-      window.location.reload();
       // supprimer le travail dans le DOM
-      trash.parentNode.remove();
+      document.querySelectorAll(".gallery figure")[i - 1].remove();
     });
   });
 }
