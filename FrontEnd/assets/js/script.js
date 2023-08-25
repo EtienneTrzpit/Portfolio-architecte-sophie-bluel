@@ -105,18 +105,16 @@ async function displayCategory(...category) {
       newGallery.appendChild(figure);
     } else {
       // afficher les travaux selon la ou les catégories passées en paramètre
-      for (let j = 0; j < category.length; j++) {
-        if (categoryWorks[i] === category[j]) {
-          let figure = document.createElement("figure");
-          let img = document.createElement("img");
-          let figcaption = document.createElement("figcaption");
-          img.src = imageUrlWorks[i];
-          img.alt = titleWorks[i];
-          figcaption.textContent = titleWorks[i];
-          figure.appendChild(img);
-          figure.appendChild(figcaption);
-          newGallery.appendChild(figure);
-        }
+      if (categoryWorks[i] === category[0]) {
+        let figure = document.createElement("figure");
+        let img = document.createElement("img");
+        let figcaption = document.createElement("figcaption");
+        img.src = imageUrlWorks[i];
+        img.alt = titleWorks[i];
+        figcaption.textContent = titleWorks[i];
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        newGallery.appendChild(figure);
       }
     }
   }
@@ -281,12 +279,15 @@ async function deleteWork() {
             "Content-Type": "application/json",
           },
         }
+        // supprimer le travail dans le DOM
       );
+      // supprimer le travail dans le DOM
+      if (document.querySelectorAll(".gallery figure")[i - 1]) {
+        document.querySelectorAll(".gallery figure")[i - 1].remove();
+      }
       // fermer la modal
       document.querySelector(".modal").close();
       modal.style.display = "none";
-      // supprimer le travail dans le DOM
-      document.querySelectorAll(".gallery figure")[i - 1].remove();
     });
   });
 }
