@@ -157,7 +157,6 @@ async function modificationUser() {
       modal.style.display = "flex";
       deleteWork();
       deleteAllWorks();
-      /* edit();*/
     });
   });
 }
@@ -250,7 +249,6 @@ document.querySelector(".back").addEventListener("click", () => {
   modalAdd.style.display = "none";
   modal.showModal();
   modal.style.display = "flex";
-  /* edit();*/
 });
 
 //ajout d'un event listener sur le bouton ajouter
@@ -461,26 +459,3 @@ async function addEventListenerToLoading() {
     img.classList.add("chosen-image");
   });
 }
-/*
-async function edit() {
-  //ajout d'un event listener sur figcaption du modal
-  document.querySelectorAll(".photos figcaption").forEach((figcaption) => {
-    figcaption.addEventListener("click", (e) => {
-      console.log("test");
-      //afficher modal edit
-
-      document.querySelector(".modal-edit").showModal();
-      document.querySelector(".modal-edit").style.display = "flex";
-      //afficher image dans la  modal edit avant label
-      let img = document.createElement("img");
-      // l'url de l'image est l'élément précédent de figcaption
-      img.src = e.target.previousElementSibling.src;
-      img.alt = "image";
-      let formLabel = document.querySelector(".form-image");
-      formLabel.insertBefore(img, formLabel.childNodes[1]);
-      //ajouter classe
-      img.classList.add("image-figure");
-    });
-  });
-}
-*/
